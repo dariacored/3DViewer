@@ -1,0 +1,148 @@
+\input texinfo
+@setfilename 3DViewer.info
+@settitle 3D Viewer Documentation
+
+@node Top
+@top 3D Viewer Documentation
+
+@menu
+* Основные возможности::
+* Технологии::
+* Структура проекта::
+* Архитектура MVC::
+* Сборка и установка::
+* Тестирование::
+* Дистрибуция::
+* Цели Makefile::
+@end menu
+
+@node Основные возможности
+@chapter Основные возможности
+
+@section Загрузка моделей
+Поддержка формата OBJ с автоматической нормализацией и центрированием модели.
+
+@section Вращение
+Вращение по трём осям (X, Y, Z) с интерактивным управлением мышью.
+
+@section Перемещение
+Плавное перемещение по осям через UI-элементы или правую кнопку мыши.
+
+@section Масштабирование
+Равномерное масштабирование с ограничением минимального/максимального масштаба.
+
+@section Настройки отображения
+Изменение цветов фона, рёбер и вершин. Выбор проекции (перспективная/ортографическая).
+
+@section Экспорт
+Сохранение скриншотов (BMP, JPEG) и запись анимаций (GIF).
+
+@node Технологии
+@chapter Технологии
+
+@section Основной стек технологий
+@table @asis
+@item Языки
+C++20
+@item Библиотеки
+Qt, OpenGL
+@item Сборка
+CMake, Make
+@end table
+
+@node Структура проекта
+@chapter Структура проекта
+
+@example
+controller/
+    facade.cc/h
+model/
+    model.h
+    edge.cc
+    figure.cc
+    objparser.cc
+    vertex.cc
+    point.cc
+    transformmatrix.cc
+    transformmatrixbuilder.cc
+view/
+    main.cc
+    mainwindow.cc/h
+    myglwidget.cc/h
+    qtscenedrawer.cc/h
+    scenedrawerbase.h
+    gifrecorder.cc/h
+    mainwindow.ui
+    untitled.pro
+    resources.qrc
+    style/
+        pink_theme.qss
+        fonts/
+tests/
+    modeltests.cc
+@end example
+
+@node Архитектура MVC
+@chapter Архитектура MVC
+
+@section Модель
+Классы для работы с 3D-графикой: SceneInfo, ThreeDPoint, TransformMatrix, Figure, Scene, FileReader.
+
+@section Представление
+Компоненты Qt: MainWindow, MyGLWidget, QTSceneDrawer, GifRecorder.
+
+@section Контроллер
+Facade - посредник между Моделью и Представлением.
+
+@node Сборка и установка
+@chapter Сборка и установка
+
+@example
+sudo apt-get install build-essential qt5-qmake qtbase5-dev \
+libqt5opengl5-dev libgtest-dev cmake lcov gcc
+@end example
+
+@node Тестирование
+@chapter Тестирование
+
+Запуск тестов:
+@example
+make test
+@end example
+
+Генерация отчёта о покрытии:
+@example
+make gcov_report
+@end example
+
+@node Дистрибуция
+@chapter Дистрибуция
+
+Создание дистрибутивного пакета:
+@example
+make dist
+@end example
+
+@node Цели Makefile
+@chapter Цели Makefile
+
+@table @asis
+@item all
+Основная цель запуска проекта
+@item install
+Установка проекта
+@item run
+Запуск проекта
+@item uninstall
+Удаление проекта
+@item dvi
+Генерация документации
+@item tests
+Запуск тестов
+@item clean
+Очистка проекта
+@item dist
+Архивирование проекта
+@end table
+
+@bye
